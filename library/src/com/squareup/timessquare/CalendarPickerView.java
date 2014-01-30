@@ -1,15 +1,16 @@
 // Copyright 2012 Square, Inc.
 package com.squareup.timessquare;
 
-import android.content.Context;
-import android.util.AttributeSet;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ListView;
-import android.widget.Toast;
-import com.squareup.timessquare.MonthCellDescriptor.RangeState;
+import static java.util.Calendar.DATE;
+import static java.util.Calendar.DAY_OF_MONTH;
+import static java.util.Calendar.DAY_OF_WEEK;
+import static java.util.Calendar.HOUR_OF_DAY;
+import static java.util.Calendar.MILLISECOND;
+import static java.util.Calendar.MINUTE;
+import static java.util.Calendar.MONTH;
+import static java.util.Calendar.SECOND;
+import static java.util.Calendar.YEAR;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -21,15 +22,16 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import static java.util.Calendar.DATE;
-import static java.util.Calendar.DAY_OF_MONTH;
-import static java.util.Calendar.DAY_OF_WEEK;
-import static java.util.Calendar.HOUR_OF_DAY;
-import static java.util.Calendar.MILLISECOND;
-import static java.util.Calendar.MINUTE;
-import static java.util.Calendar.MONTH;
-import static java.util.Calendar.SECOND;
-import static java.util.Calendar.YEAR;
+import android.content.Context;
+import android.util.AttributeSet;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import com.squareup.timessquare.MonthCellDescriptor.RangeState;
 
 /**
  * Android component to allow picking a date from a calendar view (a list of months).  Must be
@@ -384,7 +386,7 @@ public class CalendarPickerView extends ListView {
   }
 
   private class CellClickedListener implements MonthView.Listener {
-    @Override public void handleClick(MonthCellDescriptor cell) {
+    @Override public void handleClick(MonthCellDescriptor cell, View v) {
       Date clickedDate = cell.getDate();
 
       if (!betweenDates(clickedDate, minCal, maxCal) || !isDateSelectable(clickedDate)) {
@@ -396,7 +398,9 @@ public class CalendarPickerView extends ListView {
 
         if (dateListener != null) {
           if (wasSelected) {
-            dateListener.onDateSelected(clickedDate);
+        	  Calendar cal = Calendar.getInstance();
+        	  cal.setTime(clickedDate);
+            dateListener.onDateSelected(clickedDate, v, containsDate(swimDates, cal));
           } else {
             dateListener.onDateUnselected(clickedDate);
           }
@@ -778,7 +782,7 @@ public class CalendarPickerView extends ListView {
    * @see #setOnDateSelectedListener(OnDateSelectedListener)
    */
   public interface OnDateSelectedListener {
-    void onDateSelected(Date date);
+    void onDateSelected(Date date, View v, boolean hasSwim);
 
     void onDateUnselected(Date date);
   }

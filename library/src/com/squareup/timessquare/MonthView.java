@@ -1,15 +1,17 @@
 // Copyright 2012 Square, Inc.
 package com.squareup.timessquare;
 
-import android.content.Context;
-import android.util.AttributeSet;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.List;
+
+import android.content.Context;
+import android.util.AttributeSet;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 public class MonthView extends LinearLayout {
   TextView title;
@@ -88,6 +90,6 @@ public class MonthView extends LinearLayout {
   }
 
   public interface Listener {
-    void handleClick(MonthCellDescriptor cell);
+    void handleClick(MonthCellDescriptor cell, View v);
   }
 }
