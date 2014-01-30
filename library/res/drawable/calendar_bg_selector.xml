@@ -21,6 +21,19 @@
   <item app:state_today="true">
     <color android:color="@color/calendar_text_active"/>
   </item>
+  
+  <!-- custom for limelight -->
+  <item app:state_past_swim="true">
+      <color android:color="@color/calendar_past_swim_bg"/>
+  </item>
+  <item app:state_missed_swim="true">
+      <color android:color="@color/calendar_missed_swim_bg"/>
+  </item>
+    <item app:state_future_swim="true">
+      <color android:color="@color/calendar_future_swim_bg"/>
+  </item>
+  
+  
   <item>
     <color android:color="@color/calendar_active_month_bg"/>
   </item>

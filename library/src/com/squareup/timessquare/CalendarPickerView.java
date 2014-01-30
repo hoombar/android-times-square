@@ -75,6 +75,8 @@ public class CalendarPickerView extends ListView {
   private boolean displayOnly;
   SelectionMode selectionMode;
   Calendar today;
+  
+  private List<Calendar> swimDates;
 
   private OnDateSelectedListener dateListener;
   private DateSelectableFilter dateConfiguredListener;
@@ -217,6 +219,12 @@ public class CalendarPickerView extends ListView {
     return init(minDate, maxDate, Locale.getDefault());
   }
 
+	public FluentInitializer init(Date minDate, Date maxDate, List<Calendar> swims) {
+		this.swimDates = swims;
+		
+		return init(minDate, maxDate, Locale.getDefault());
+	}
+	
   public class FluentInitializer {
     /** Override the {@link SelectionMode} from the default ({@link SelectionMode#SINGLE}). */
     public FluentInitializer inMode(SelectionMode mode) {
@@ -661,13 +669,33 @@ public class CalendarPickerView extends ListView {
 
         weekCells.add(
             new MonthCellDescriptor(date, isCurrentMonth, isSelectable, isSelected, isToday,
-                isHighlighted, value, rangeState));
+                isHighlighted, value, rangeState, isPastSwim(cal), isMissedSwim(cal), isFutureSwim(cal)));
         cal.add(DATE, 1);
       }
     }
     return cells;
   }
+  
+  private boolean isPastSwim(Calendar cal) {
+	  if (isInPast(cal)) {
+		  return containsDate(swimDates, cal);
+	  }
+	  return false;
+  }
+  private boolean isMissedSwim(Calendar cal) {
+	  return false;
+  }
+  private boolean isFutureSwim(Calendar cal) {
+	  if (!isInPast(cal)) {
+		  return containsDate(swimDates, cal);
+	  }
+	  return false;
+  }
 
+  private boolean isInPast(Calendar cal) {
+	  return Calendar.getInstance().after(cal);
+  }
+  
   private static boolean containsDate(List<Calendar> selectedCals, Calendar cal) {
     for (Calendar selectedCal : selectedCals) {
       if (sameDate(cal, selectedCal)) {

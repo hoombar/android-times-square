@@ -29,11 +29,27 @@ public class CalendarCellView extends TextView {
   private static final int[] STATE_RANGE_LAST = {
       R.attr.state_range_last
   };
+  
+  private static final int[] STATE_PAST_SWIM = {
+      R.attr.state_past_swim
+  };
+  private static final int[] STATE_MISSED_SWIM = {
+      R.attr.state_missed_swim
+  };
+  private static final int[] STATE_FUTURE_SWIM = {
+      R.attr.state_future_swim
+  };
 
   private boolean isSelectable = false;
   private boolean isCurrentMonth = false;
   private boolean isToday = false;
   private boolean isHighlighted = false;
+  
+  private boolean isPastSwim = false;
+  private boolean isMissedSwim = false;
+  private boolean isFutureSwim = false;
+
+  
   private RangeState rangeState = RangeState.NONE;
 
   @SuppressWarnings("UnusedDeclaration")
@@ -64,6 +80,18 @@ public class CalendarCellView extends TextView {
   public void setHighlighted(boolean highlighted) {
     isHighlighted = highlighted;
   }
+  
+  public void setPastSwim(boolean pastSwim) {
+	  isPastSwim = pastSwim;
+  }
+
+  public void setMissedSwim(boolean missedSwim) {
+	  isMissedSwim = missedSwim;
+  }
+
+  public void setFutureSwim(boolean futureSwim) {
+	  isFutureSwim = futureSwim;
+  }
 
   @Override protected int[] onCreateDrawableState(int extraSpace) {
     final int[] drawableState = super.onCreateDrawableState(extraSpace + 5);
@@ -83,6 +111,17 @@ public class CalendarCellView extends TextView {
     if (isHighlighted) {
       mergeDrawableStates(drawableState, STATE_HIGHLIGHTED);
     }
+    
+    if (isPastSwim) {
+        mergeDrawableStates(drawableState, STATE_PAST_SWIM);
+      }
+    if (isMissedSwim) {
+        mergeDrawableStates(drawableState, STATE_MISSED_SWIM);
+      }
+    if (isFutureSwim) {
+        mergeDrawableStates(drawableState, STATE_FUTURE_SWIM);
+      }
+    
 
     if (rangeState == MonthCellDescriptor.RangeState.FIRST) {
       mergeDrawableStates(drawableState, STATE_RANGE_FIRST);

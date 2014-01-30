@@ -67,11 +67,17 @@ public class MonthView extends LinearLayout {
           cellView.setClickable(!displayOnly);
 
           cellView.setSelectable(cell.isSelectable());
-          cellView.setSelected(cell.isSelected());
+          //cellView.setSelected(cell.isSelected());
           cellView.setCurrentMonth(cell.isCurrentMonth());
           cellView.setToday(cell.isToday());
           cellView.setRangeState(cell.getRangeState());
           cellView.setHighlighted(cell.isHighlighted());
+          
+          cellView.setPastSwim(cell.isPastSwim());
+          cellView.setMissedSwim(cell.isMissedSwim());
+          cellView.setFutureSwim(cell.isFutureSwim());
+          cellView.refreshDrawableState();
+          
           cellView.setTag(cell);
         }
       } else {
