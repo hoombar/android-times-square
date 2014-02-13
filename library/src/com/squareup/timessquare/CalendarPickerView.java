@@ -161,42 +161,21 @@ public class CalendarPickerView extends ListView {
     fullDateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM, locale);
 
     this.selectionMode = SelectionMode.SINGLE;
-    // Clear out any previously-selected dates/cells.
-    selectedCals.clear();
-    selectedCells.clear();
-    highlightedCells.clear();
-
-    // Clear previous state.
-    cells.clear();
-    months.clear();
+    
     minCal.setTime(minDate);
     maxCal.setTime(maxDate);
     setMidnight(minCal);
     setMidnight(maxCal);
+    
+    
     displayOnly = false;
 
     // maxDate is exclusive: bump back to the previous day so if maxDate is the first of a month,
     // we don't accidentally include that month in the view.
     maxCal.add(MINUTE, -1);
-
-    // Now iterate between minCal and maxCal and build up our list of months to show.
-    monthCounter.setTime(minCal.getTime());
-    final int maxMonth = maxCal.get(MONTH);
-    final int maxYear = maxCal.get(YEAR);
-    while ((monthCounter.get(MONTH) <= maxMonth // Up to, including the month.
-        || monthCounter.get(YEAR) < maxYear) // Up to the year.
-        && monthCounter.get(YEAR) < maxYear + 1) { // But not > next yr.
-      Date date = monthCounter.getTime();
-      MonthDescriptor month =
-          new MonthDescriptor(monthCounter.get(MONTH), monthCounter.get(YEAR), date,
-              monthNameFormat.format(date));
-      cells.add(getMonthCells(month, monthCounter));
-      Logr.d("Adding month %s", month);
-      months.add(month);
-      monthCounter.add(MONTH, 1);
-    }
-
-    validateAndUpdate();
+    
+    updateCells();
+    
     return new FluentInitializer();
   }
 
@@ -749,6 +728,44 @@ public class CalendarPickerView extends ListView {
   private boolean isDateSelectable(Date date) {
     return dateConfiguredListener == null || dateConfiguredListener.isDateSelectable(date);
   }
+  
+  public void setSwimDates(List<Calendar> dates) {
+	  swimDates = dates; 
+
+	  updateCells();
+  }
+  
+	private void updateCells() {
+		// Clear out any previously-selected dates/cells.
+		selectedCals.clear();
+		selectedCells.clear();
+		highlightedCells.clear();
+
+		// Clear previous state.
+		cells.clear();
+		months.clear();
+
+		// Now iterate between minCal and maxCal and build up our list of months
+		// to show.
+		monthCounter.setTime(minCal.getTime());
+		final int maxMonth = maxCal.get(MONTH);
+		final int maxYear = maxCal.get(YEAR);
+		while ((monthCounter.get(MONTH) <= maxMonth // Up to, including the
+													// month.
+				|| monthCounter.get(YEAR) < maxYear) // Up to the year.
+				&& monthCounter.get(YEAR) < maxYear + 1) { // But not > next yr.
+			Date date = monthCounter.getTime();
+			MonthDescriptor month = new MonthDescriptor(
+					monthCounter.get(MONTH), monthCounter.get(YEAR), date,
+					monthNameFormat.format(date));
+			cells.add(getMonthCells(month, monthCounter));
+			Logr.d("Adding month %s", month);
+			months.add(month);
+			monthCounter.add(MONTH, 1);
+		}
+
+		validateAndUpdate();
+	}
 
   public void setOnDateSelectedListener(OnDateSelectedListener listener) {
     dateListener = listener;
