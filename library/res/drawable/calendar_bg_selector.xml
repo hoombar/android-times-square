@@ -1,40 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Copyright 2012 Square, Inc. -->
 
-<selector xmlns:android="http://schemas.android.com/apk/res/android"
+<selector 
+    xmlns:android="http://schemas.android.com/apk/res/android" 
     xmlns:app="http://schemas.android.com/apk/res-auto">
-  <item app:state_range_middle="true">
-    <color android:color="@color/calendar_selected_range_bg"/>
-  </item>
-  <item android:state_selected="true">
-    <color android:color="@color/calendar_selected_day_bg"/>
-  </item>
-  <item android:state_pressed="true">
-    <color android:color="@color/calendar_selected_day_bg"/>
-  </item>
-  <item app:state_current_month="false">
-    <color android:color="@color/calendar_inactive_month_bg"/>
-  </item>
-  <item app:state_highlighted="true">
-    <color android:color="@color/calendar_highlighted_day_bg"/>
-  </item>
-  <item app:state_today="true">
-    <color android:color="@color/calendar_text_active"/>
-  </item>
-  
-  <!-- custom for limelight -->
-  <item app:state_past_swim="true">
-      <color android:color="@color/calendar_past_swim_bg"/>
-  </item>
-  <item app:state_missed_swim="true">
-      <color android:color="@color/calendar_missed_swim_bg"/>
-  </item>
+
+    <!-- use this first so you don't get missed swims on months where they don't belong -->
+    <item app:state_current_month="false">
+        <color android:color="@color/calendar_inactive_month_bg" />
+    </item>
+
+    <!-- custom for limelight take priority -->
+    <item app:state_past_swim="true">
+        <color android:color="@color/calendar_past_swim_bg" />
+    </item>
+    <item app:state_missed_swim="true">
+        <color android:color="@color/calendar_missed_swim_bg" />
+    </item>
     <item app:state_future_swim="true">
-      <color android:color="@color/calendar_future_swim_bg"/>
-  </item>
-  
-  
-  <item>
-    <color android:color="@color/calendar_active_month_bg"/>
-  </item>
+        <color android:color="@color/calendar_future_swim_bg" />
+    </item>
+    
+    <!-- default states for -->
+    <item app:state_range_middle="true">
+        <color android:color="@color/calendar_selected_range_bg" />
+    </item>
+    <item android:state_selected="true">
+        <color android:color="@color/calendar_selected_day_bg" />
+    </item>
+    <item android:state_pressed="true">
+        <color android:color="@color/calendar_selected_day_bg" />
+    </item>
+    <item app:state_highlighted="true">
+        <color android:color="@color/calendar_highlighted_day_bg" />
+    </item>
+    <item app:state_today="true">
+        <color android:color="@color/calendar_text_active" />
+    </item>
+    <item>
+        <color android:color="@color/calendar_active_month_bg" />
+    </item>
+
 </selector>

@@ -8,129 +8,109 @@ import android.widget.TextView;
 import com.squareup.timessquare.MonthCellDescriptor.RangeState;
 
 public class CalendarCellView extends TextView {
-  private static final int[] STATE_SELECTABLE = {
-      R.attr.state_selectable
-  };
-  private static final int[] STATE_CURRENT_MONTH = {
-      R.attr.state_current_month
-  };
-  private static final int[] STATE_TODAY = {
-      R.attr.state_today
-  };
-  private static final int[] STATE_HIGHLIGHTED = {
-      R.attr.state_highlighted
-  };
-  private static final int[] STATE_RANGE_FIRST = {
-      R.attr.state_range_first
-  };
-  private static final int[] STATE_RANGE_MIDDLE = {
-      R.attr.state_range_middle
-  };
-  private static final int[] STATE_RANGE_LAST = {
-      R.attr.state_range_last
-  };
-  
-  private static final int[] STATE_PAST_SWIM = {
-      R.attr.state_past_swim
-  };
-  private static final int[] STATE_MISSED_SWIM = {
-      R.attr.state_missed_swim
-  };
-  private static final int[] STATE_FUTURE_SWIM = {
-      R.attr.state_future_swim
-  };
+	private static final int[] STATE_SELECTABLE = { R.attr.state_selectable };
+	private static final int[] STATE_CURRENT_MONTH = { R.attr.state_current_month };
+	private static final int[] STATE_TODAY = { R.attr.state_today };
+	private static final int[] STATE_HIGHLIGHTED = { R.attr.state_highlighted };
+	private static final int[] STATE_RANGE_FIRST = { R.attr.state_range_first };
+	private static final int[] STATE_RANGE_MIDDLE = { R.attr.state_range_middle };
+	private static final int[] STATE_RANGE_LAST = { R.attr.state_range_last };
 
-  private boolean isSelectable = false;
-  private boolean isCurrentMonth = false;
-  private boolean isToday = false;
-  private boolean isHighlighted = false;
-  
-  private boolean isPastSwim = false;
-  private boolean isMissedSwim = false;
-  private boolean isFutureSwim = false;
+	private static final int[] STATE_PAST_SWIM = { R.attr.state_past_swim };
+	private static final int[] STATE_MISSED_SWIM = { R.attr.state_missed_swim };
+	private static final int[] STATE_FUTURE_SWIM = { R.attr.state_future_swim };
 
-  
-  private RangeState rangeState = RangeState.NONE;
+	private boolean isSelectable = false;
+	private boolean isCurrentMonth = false;
+	private boolean isToday = false;
+	private boolean isHighlighted = false;
 
-  @SuppressWarnings("UnusedDeclaration")
-  public CalendarCellView(Context context, AttributeSet attrs) {
-    super(context, attrs);
-  }
+	private boolean isPastSwim = false;
+	private boolean isMissedSwim = false;
+	private boolean isFutureSwim = false;
 
-  public void setSelectable(boolean isSelectable) {
-    this.isSelectable = isSelectable;
-    refreshDrawableState();
-  }
+	private RangeState rangeState = RangeState.NONE;
 
-  public void setCurrentMonth(boolean isCurrentMonth) {
-    this.isCurrentMonth = isCurrentMonth;
-    refreshDrawableState();
-  }
+	@SuppressWarnings("UnusedDeclaration")
+	public CalendarCellView(Context context, AttributeSet attrs) {
+		super(context, attrs);
+	}
 
-  public void setToday(boolean isToday) {
-    this.isToday = isToday;
-    refreshDrawableState();
-  }
+	public void setSelectable(boolean isSelectable) {
+		this.isSelectable = isSelectable;
+		refreshDrawableState();
+	}
 
-  public void setRangeState(MonthCellDescriptor.RangeState rangeState) {
-    this.rangeState = rangeState;
-    refreshDrawableState();
-  }
+	public void setCurrentMonth(boolean isCurrentMonth) {
+		this.isCurrentMonth = isCurrentMonth;
+		refreshDrawableState();
+	}
 
-  public void setHighlighted(boolean highlighted) {
-    isHighlighted = highlighted;
-  }
-  
-  public void setPastSwim(boolean pastSwim) {
-	  isPastSwim = pastSwim;
-  }
+	public void setToday(boolean isToday) {
+		this.isToday = isToday;
+		refreshDrawableState();
+	}
 
-  public void setMissedSwim(boolean missedSwim) {
-	  isMissedSwim = missedSwim;
-  }
+	public void setRangeState(MonthCellDescriptor.RangeState rangeState) {
+		this.rangeState = rangeState;
+		refreshDrawableState();
+	}
 
-  public void setFutureSwim(boolean futureSwim) {
-	  isFutureSwim = futureSwim;
-  }
+	public void setHighlighted(boolean highlighted) {
+		isHighlighted = highlighted;
+	}
 
-  @Override protected int[] onCreateDrawableState(int extraSpace) {
-    final int[] drawableState = super.onCreateDrawableState(extraSpace + 5);
+	public void setPastSwim(boolean pastSwim) {
+		isPastSwim = pastSwim;
+	}
 
-    if (isSelectable) {
-      mergeDrawableStates(drawableState, STATE_SELECTABLE);
-    }
+	public void setMissedSwim(boolean missedSwim) {
+		isMissedSwim = missedSwim;
+	}
 
-    if (isCurrentMonth) {
-      mergeDrawableStates(drawableState, STATE_CURRENT_MONTH);
-    }
+	public void setFutureSwim(boolean futureSwim) {
+		isFutureSwim = futureSwim;
+	}
 
-    if (isToday) {
-      mergeDrawableStates(drawableState, STATE_TODAY);
-    }
+	@Override
+	protected int[] onCreateDrawableState(int extraSpace) {
+		final int[] drawableState = super.onCreateDrawableState(extraSpace + 5);
 
-    if (isHighlighted) {
-      mergeDrawableStates(drawableState, STATE_HIGHLIGHTED);
-    }
-    
-    if (isPastSwim) {
-        mergeDrawableStates(drawableState, STATE_PAST_SWIM);
-      }
-    if (isMissedSwim) {
-        mergeDrawableStates(drawableState, STATE_MISSED_SWIM);
-      }
-    if (isFutureSwim) {
-        mergeDrawableStates(drawableState, STATE_FUTURE_SWIM);
-      }
-    
+		if (isSelectable) {
+			mergeDrawableStates(drawableState, STATE_SELECTABLE);
+		}
 
-    if (rangeState == MonthCellDescriptor.RangeState.FIRST) {
-      mergeDrawableStates(drawableState, STATE_RANGE_FIRST);
-    } else if (rangeState == MonthCellDescriptor.RangeState.MIDDLE) {
-      mergeDrawableStates(drawableState, STATE_RANGE_MIDDLE);
-    } else if (rangeState == RangeState.LAST) {
-      mergeDrawableStates(drawableState, STATE_RANGE_LAST);
-    }
+		if (isCurrentMonth) {
+			mergeDrawableStates(drawableState, STATE_CURRENT_MONTH);
+		}
 
-    return drawableState;
-  }
+		if (isToday) {
+			mergeDrawableStates(drawableState, STATE_TODAY);
+		}
+
+		if (isHighlighted) {
+			mergeDrawableStates(drawableState, STATE_HIGHLIGHTED);
+		}
+
+		if (isPastSwim) {
+			if (isMissedSwim) {
+				mergeDrawableStates(drawableState, STATE_MISSED_SWIM);
+			} else {
+				mergeDrawableStates(drawableState, STATE_PAST_SWIM);	
+			}
+		}
+		if (isFutureSwim) {
+			mergeDrawableStates(drawableState, STATE_FUTURE_SWIM);
+		}
+
+		if (rangeState == MonthCellDescriptor.RangeState.FIRST) {
+			mergeDrawableStates(drawableState, STATE_RANGE_FIRST);
+		} else if (rangeState == MonthCellDescriptor.RangeState.MIDDLE) {
+			mergeDrawableStates(drawableState, STATE_RANGE_MIDDLE);
+		} else if (rangeState == RangeState.LAST) {
+			mergeDrawableStates(drawableState, STATE_RANGE_LAST);
+		}
+
+		return drawableState;
+	}
 }

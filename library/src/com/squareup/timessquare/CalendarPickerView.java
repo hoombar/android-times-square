@@ -29,7 +29,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.squareup.timessquare.MonthCellDescriptor.RangeState;
 
@@ -79,11 +78,10 @@ public class CalendarPickerView extends ListView {
   Calendar today;
   
   private List<Calendar> swimDates;
+  private List<Calendar> completedSwimDates;
 
   private OnDateSelectedListener dateListener;
   private DateSelectableFilter dateConfiguredListener;
-  private OnInvalidDateSelectedListener invalidDateListener =
-      new DefaultOnInvalidDateSelectedListener();
 
   public CalendarPickerView(Context context, AttributeSet attrs) {
     super(context, attrs);
@@ -200,8 +198,9 @@ public class CalendarPickerView extends ListView {
     return init(minDate, maxDate, Locale.getDefault());
   }
 
-	public FluentInitializer init(Date minDate, Date maxDate, List<Calendar> swims) {
+	public FluentInitializer init(Date minDate, Date maxDate, List<Calendar> swims, List<Calendar> completedSwims) {
 		this.swimDates = swims;
+		this.completedSwimDates = completedSwims;
 		
 		return init(minDate, maxDate, Locale.getDefault());
 	}
@@ -365,27 +364,18 @@ public class CalendarPickerView extends ListView {
   }
 
   private class CellClickedListener implements MonthView.Listener {
-    @Override public void handleClick(MonthCellDescriptor cell, View v) {
-      Date clickedDate = cell.getDate();
+	  
+		@Override
+		public void handleClick(MonthCellDescriptor cell, View v) {
+			Date clickedDate = cell.getDate();
 
-      if (!betweenDates(clickedDate, minCal, maxCal) || !isDateSelectable(clickedDate)) {
-        if (invalidDateListener != null) {
-          invalidDateListener.onInvalidDateSelected(clickedDate);
-        }
-      } else {
-        boolean wasSelected = doSelectDate(clickedDate, cell);
-
-        if (dateListener != null) {
-          if (wasSelected) {
-        	  Calendar cal = Calendar.getInstance();
-        	  cal.setTime(clickedDate);
-            dateListener.onDateSelected(clickedDate, v, containsDate(swimDates, cal));
-          } else {
-            dateListener.onDateUnselected(clickedDate);
-          }
-        }
-      }
-    }
+			if (dateListener != null) {
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(clickedDate);
+				dateListener.onDateSelected(clickedDate, v,
+						containsDate(swimDates, cal));
+			}
+		}
   }
 
   /**
@@ -661,22 +651,50 @@ public class CalendarPickerView extends ListView {
   
   private boolean isPastSwim(Calendar cal) {
 	  if (isInPast(cal)) {
-		  return containsDate(swimDates, cal);
+		  boolean past = containsDate(swimDates, cal);
+		  if (past) {
+			  Logr.d("Past swim" + cal.getTime().toString());
+		  }
+		  
+		  return past;
 	  }
+	  
 	  return false;
   }
+  
   private boolean isMissedSwim(Calendar cal) {
-	  return false;
+	  boolean past = isPastSwim(cal);
+	  boolean completed = isCompletedSwim(cal);
+	  boolean missed = past && !completed; 
+	  Logr.d(cal.getTime().toString() + " Missed: " + Boolean.toString(missed) + " Past: " + Boolean.toString(past) + " Completed: " + Boolean.toString(completed) );
+	  
+	  return missed;
   }
+  
+  private boolean isCompletedSwim(Calendar cal) {
+	  return containsDate(completedSwimDates, cal);
+  }
+  
   private boolean isFutureSwim(Calendar cal) {
 	  if (!isInPast(cal)) {
 		  return containsDate(swimDates, cal);
 	  }
+	  
 	  return false;
   }
 
+  /***
+   * Is the date considered to be in the past
+   * This means anything yesterday or before
+   * 
+   * @param cal the date to evaluate
+   * @return true is the date is < Calendar.DATE -1
+   */
   private boolean isInPast(Calendar cal) {
-	  return Calendar.getInstance().after(cal);
+	  Calendar yesterday = Calendar.getInstance();
+	  yesterday.add(Calendar.DATE, -1);
+	  
+	  return yesterday.after(cal);
   }
   
   private static boolean containsDate(List<Calendar> selectedCals, Calendar cal) {
@@ -772,15 +790,6 @@ public class CalendarPickerView extends ListView {
   }
 
   /**
-   * Set a listener to react to user selection of a disabled date.
-   *
-   * @param listener the listener to set, or null for no reaction
-   */
-  public void setOnInvalidDateSelectedListener(OnInvalidDateSelectedListener listener) {
-    invalidDateListener = listener;
-  }
-
-  /**
    * Set a listener used to discriminate between selectable and unselectable dates. Set this to
    * disable arbitrary dates as they are rendered.
    * <p>
@@ -805,17 +814,6 @@ public class CalendarPickerView extends ListView {
   }
 
   /**
-   * Interface to be notified when an invalid date is selected by the user. This will only be
-   * called when the user initiates the date selection. If you call {@link #selectDate(Date)} this
-   * listener will not be notified.
-   *
-   * @see #setOnInvalidDateSelectedListener(OnInvalidDateSelectedListener)
-   */
-  public interface OnInvalidDateSelectedListener {
-    void onInvalidDateSelected(Date date);
-  }
-
-  /**
    * Interface used for determining the selectability of a date cell when it is configured for
    * display on the calendar.
    *
@@ -823,14 +821,5 @@ public class CalendarPickerView extends ListView {
    */
   public interface DateSelectableFilter {
     boolean isDateSelectable(Date date);
-  }
-
-  private class DefaultOnInvalidDateSelectedListener implements OnInvalidDateSelectedListener {
-    @Override public void onInvalidDateSelected(Date date) {
-      String errMessage =
-          getResources().getString(R.string.invalid_date, fullDateFormat.format(minCal.getTime()),
-              fullDateFormat.format(maxCal.getTime()));
-      Toast.makeText(getContext(), errMessage, Toast.LENGTH_SHORT).show();
-    }
   }
 }
