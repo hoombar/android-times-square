@@ -12,13 +12,13 @@
 
     <!-- custom for limelight take priority -->
     <item app:state_past_swim="true">
-        <color android:color="@color/calendar_past_swim_bg" />
+		<bitmap android:src="@drawable/calendar_swim_completed" android:gravity="top|right" />
     </item>
     <item app:state_missed_swim="true">
-        <color android:color="@color/calendar_missed_swim_bg" />
+		<bitmap android:src="@drawable/calendar_swim_missed" android:gravity="top|right" />
     </item>
     <item app:state_future_swim="true">
-        <color android:color="@color/calendar_future_swim_bg" />
+		<bitmap android:src="@drawable/calendar_swim" android:gravity="top|right" />
     </item>
     
     <!-- default states for -->
@@ -35,7 +35,7 @@
         <color android:color="@color/calendar_highlighted_day_bg" />
     </item>
     <item app:state_today="true">
-        <color android:color="@color/calendar_text_active" />
+		<bitmap android:src="@drawable/calendar_today" android:gravity="bottom" />
     </item>
     <item>
         <color android:color="@color/calendar_active_month_bg" />

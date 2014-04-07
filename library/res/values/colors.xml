@@ -1,18 +1,38 @@
 <!-- Copyright 2012 Square, Inc. -->
 <resources>
+    
+  <!-- SwimBritain app palette -->
+  <color name="sb_white">#ffffff</color>
+  <color name="sb_black">#000000</color>
+  <color name="sb_grey1">#DAE3E7</color>
+  <color name="sb_grey2">#BBCBD3</color>
+  <color name="sb_grey3">#556670</color>
+  <color name="sb_grey4">#2E434E</color>
+  <color name="sb_pri1">#00baf2</color>		<!-- BG blue		-->
+  <color name="sb_pri2">#042e6f</color>		<!-- navy			-->
+  <color name="sb_sec1">#b9e5fb</color> 	<!-- light blue 	-->
+  <color name="sb_sec2">#FFDD00</color>		<!-- bright yellow 	-->
+  <color name="sb_sec3">#F7A800</color>		<!-- bright orange 	-->
+  <color name="sb_alt1">#CFE5AE</color>		<!-- light green 	-->
+  <color name="sb_alt2">#D5E041</color>		<!-- bright green 	-->
+  <color name="sb_alt3">#46A941</color>		<!-- dark green 	-->    
+  
+    
   <color name="calendar_active_month_bg">#fff5f7f9</color>
   <color name="calendar_bg">#ffffffff</color>
   <color name="calendar_divider">#ffbababa</color>
   <color name="calendar_inactive_month_bg">#ffd7d9db</color>
-  <color name="calendar_selected_day_bg">#ff379bff</color>
+  <color name="calendar_selected_day_bg">@color/sb_pri1</color>
   <color name="calendar_highlighted_day_bg">#ccffcc</color>
   <color name="calendar_selected_range_bg">#ff96caff</color>
-  <color name="calendar_text_inactive">#40778088</color>
-  <color name="calendar_text_active">#ff778088</color>
-  <color name="calendar_text_selected">#ffffffff</color>
+  <color name="calendar_text_inactive">@color/sb_grey2</color>
+  <color name="calendar_text_active">@color/sb_black</color>
+  <color name="calendar_text_selected">@color/sb_white</color>
   <color name="calendar_text_unselectable">#7f778088</color>
   
   <color name="calendar_past_swim_bg">#2BFF00</color>
   <color name="calendar_future_swim_bg">#E100FF</color>
   <color name="calendar_missed_swim_bg">#FFC400</color>
+  
+  
 </resources>
