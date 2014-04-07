@@ -17,7 +17,7 @@
       app:state_current_month="false" 
       />
   <item 
-      android:color="@color/calendar_text_selected"
+      android:color="@color/calendar_text_active"
       app:state_today="true" 
       />
   <item 
