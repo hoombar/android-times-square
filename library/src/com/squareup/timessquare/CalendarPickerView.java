@@ -747,8 +747,9 @@ public class CalendarPickerView extends ListView {
     return dateConfiguredListener == null || dateConfiguredListener.isDateSelectable(date);
   }
   
-  public void setSwimDates(List<Calendar> dates) {
+  public void setSwimDates(List<Calendar> dates, List<Calendar> completedDates) {
 	  swimDates = dates; 
+	  completedSwimDates = completedDates;
 
 	  updateCells();
   }
