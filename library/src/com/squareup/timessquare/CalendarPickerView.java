@@ -642,7 +642,8 @@ public class CalendarPickerView extends ListView {
 
         weekCells.add(
             new MonthCellDescriptor(date, isCurrentMonth, isSelectable, isSelected, isToday,
-                isHighlighted, value, rangeState, isPastSwim(cal), isMissedSwim(cal), isFutureSwim(cal)));
+                isHighlighted, value, rangeState, isPastSwim(cal), isMissedSwim(cal), isFutureSwim(cal),
+                isCompletedSwim( cal )));
         cal.add(DATE, 1);
       }
     }

@@ -12,20 +12,6 @@
 
     <!-- custom for limelight take priority -->
 
-    <item android:state_pressed="true" app:state_future_swim="true" app:state_today="true">
-        <layer-list>
-            <item>
-		        <color android:color="@color/calendar_selected_day_bg" />
-            </item>
-            <item>
-				<bitmap android:src="@drawable/calendar_today" android:gravity="bottom" />
-            </item>
-            <item>
-				<bitmap android:src="@drawable/calendar_swim" android:gravity="top|right" />
-            </item>
-        </layer-list>
-    </item>
-    
     <item android:state_pressed="true" app:state_past_swim="true" app:state_today="true" >
         <layer-list>
             <item>
@@ -36,6 +22,20 @@
             </item>
             <item>
 				<bitmap android:src="@drawable/calendar_swim_completed" android:gravity="top|right" />
+            </item>
+        </layer-list>
+    </item>
+    
+    <item android:state_pressed="true" app:state_future_swim="true" app:state_today="true">
+        <layer-list>
+            <item>
+		        <color android:color="@color/calendar_selected_day_bg" />
+            </item>
+            <item>
+				<bitmap android:src="@drawable/calendar_today" android:gravity="bottom" />
+            </item>
+            <item>
+				<bitmap android:src="@drawable/calendar_swim" android:gravity="top|right" />
             </item>
         </layer-list>
     </item>

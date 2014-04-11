@@ -28,6 +28,7 @@ public class CalendarCellView extends TextView {
 	private boolean isPastSwim = false;
 	private boolean isMissedSwim = false;
 	private boolean isFutureSwim = false;
+	private boolean isCompletedSwim = false;
 
 	private RangeState rangeState = RangeState.NONE;
 
@@ -72,6 +73,10 @@ public class CalendarCellView extends TextView {
 		isFutureSwim = futureSwim;
 	}
 
+	public void setCompletedSwim( boolean completedSwim ) {
+		isCompletedSwim = completedSwim;
+	}
+	
 	@Override
 	protected int[] onCreateDrawableState(int extraSpace) {
 		final int[] drawableState = super.onCreateDrawableState(extraSpace + 5);
@@ -100,7 +105,12 @@ public class CalendarCellView extends TextView {
 			}
 		}
 		if (isFutureSwim) {
-			mergeDrawableStates(drawableState, STATE_FUTURE_SWIM);
+			// swim marked as done on current day should have the tick
+			if ( isCompletedSwim && isToday ) {
+				mergeDrawableStates(drawableState, STATE_PAST_SWIM);	
+			} else {
+				mergeDrawableStates(drawableState, STATE_FUTURE_SWIM);
+			}
 		}
 
 		if (rangeState == MonthCellDescriptor.RangeState.FIRST) {

@@ -21,12 +21,13 @@ class MonthCellDescriptor {
   private boolean isPastSwim;
   private boolean isMissedSwim;
   private boolean isFutureSwim;
+  private boolean isCompletedSwim;
   
   private RangeState rangeState;
 
   MonthCellDescriptor(Date date, boolean currentMonth, boolean selectable, boolean selected,
       boolean today, boolean highlighted, int value, RangeState rangeState, boolean pastSwim, 
-      boolean missedSwim, boolean futureSwim) {
+      boolean missedSwim, boolean futureSwim, boolean completedSwim) {
     this.date = date;
     isCurrentMonth = currentMonth;
     isSelectable = selectable;
@@ -37,6 +38,7 @@ class MonthCellDescriptor {
     isPastSwim = pastSwim;
     isMissedSwim = missedSwim;
     isFutureSwim = futureSwim;
+    isCompletedSwim = completedSwim;
     
     this.value = value;
     this.rangeState = rangeState;
@@ -68,6 +70,10 @@ class MonthCellDescriptor {
   
   public boolean isFutureSwim() {
 	  return isFutureSwim;
+  }
+  
+  public boolean isCompletedSwim() {
+	return isCompletedSwim;
   }
   
   public void setSelected(boolean selected) {

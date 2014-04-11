@@ -78,6 +78,7 @@ public class MonthView extends LinearLayout {
           cellView.setPastSwim(cell.isPastSwim());
           cellView.setMissedSwim(cell.isMissedSwim());
           cellView.setFutureSwim(cell.isFutureSwim());
+          cellView.setCompletedSwim( cell.isCompletedSwim() );
           cellView.refreshDrawableState();
           
           cellView.setTag(cell);
